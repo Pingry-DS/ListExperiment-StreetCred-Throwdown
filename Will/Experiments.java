@@ -1,23 +1,19 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.LinkedList;
 
 public class Experiments {
 
   public static void main(String[] args) {
 
     //TODO Check command line for number of iterations
-    int iterations = 5000;
-
-    Scanner keyboard = new Scanner(System.in);
+    int iterations = 10000;
 
     // Keep track of the run time for each call
     long start = System.nanoTime();
     long end = System.nanoTime();
 
     System.out.println("-------------------------------");
-    System.out.println("How many head iterations would you like to run?");
-    iterations = keyboard.nextInt();
     start = System.nanoTime();
     // Make the testing calls and print the time after each
     HeadInsert(iterations, "Hello");
@@ -25,24 +21,18 @@ public class Experiments {
     System.out.println(iterations + " iterations at head took " + (end - start)/1000000.0 + "ms.");
     System.out.println("-------------------------------");
 
-    System.out.println("How many tail iterations would you like to run?");
-    iterations = keyboard.nextInt();
     start = System.nanoTime();
     TailInsert(iterations, "Hello");
     end = System.nanoTime();
     System.out.println(iterations + " insertions at tail took " + (end - start)/1000000.0 + "ms.");
     System.out.println("-------------------------------");
 
-    System.out.println("How many midpoint iterations would you like to run?");
-    iterations = keyboard.nextInt();
     start = System.nanoTime();
     MidpointInsert(iterations, "Hello");
     end = System.nanoTime();
     System.out.println(iterations + " insertions at midpoint took " + (end - start)/1000000.0 + "ms.");
     System.out.println("-------------------------------");
 
-    System.out.println("How many alternating iterations would you like to run?");
-    iterations = keyboard.nextInt();
     start = System.nanoTime();
     AlternateInsert(iterations, "Hello");
     end = System.nanoTime();
@@ -66,7 +56,7 @@ public class Experiments {
    * @return A reference to the constructed List
    */
   public static <T>List<T> HeadInsert(int times, T payload) {
-    List<T> list = new ArrayList<T>();
+    List<T> list = new LinkedList<T>();
     for (int i = 0; i < times; i++){
       list.add(0, payload);
     }
@@ -81,7 +71,7 @@ public class Experiments {
    * @return A reference to the constructed List
    */
   public static <T>List<T> TailInsert(int times, T payload) {
-    List<T> list = new ArrayList<T>();
+    List<T> list = new LinkedList<T>();
     for (int i = 0; i < times; i++){
       list.add(payload);
     }
@@ -117,7 +107,7 @@ public class Experiments {
    * @return A reference to the constructed List
    */
   public static <T>List<T> AlternateInsert(int times, T payload) {
-    List<T> list = new ArrayList<T>();
+    List<T> list = new LinkedList<T>();
     if (times == 0)
       return list;
     if (times == 1){

@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Experiments {
 
@@ -55,9 +56,9 @@ public class Experiments {
      * @return A reference to the constructed List
      */
     public static List<String> HeadInsert(int times, String payload) {
-        ArrayList<String> i = new ArrayList<Integer>();
+        LinkedList<String> str = new LinkedList<String>();
         for(int i = 0; i < times; i++){
-            str.add(payload);
+            str.addFirst(payload);
         }
         return str;
     }
@@ -92,7 +93,7 @@ public class Experiments {
     public static List<String> MidpointInsert(int times, String payload) {
         List<String> str = new ArrayList<String>();
         for(int x = 0; x < times; x++){
-            str.add((str.size() / 2), payload);
+            str.add((x / 2), payload);
         }
         return str;
     }

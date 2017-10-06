@@ -1,4 +1,4 @@
-package LinkedList;
+
 import java.util.Iterator;
 /*
  * This code is based on the code for java.util.List available at

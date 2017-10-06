@@ -1,4 +1,4 @@
-package LinkedList;
+
 import java.util.Iterator;
 
 
@@ -219,7 +219,7 @@ public T get(int index)
   {
     SimpleNode <T> start = first;
     int i = 0;
-    for(; i >= size; start = start.getNextNode())
+    for(; i < size; start = start.getNextNode())
     {
       if(start.getInfo() == o)
         return i;
@@ -257,15 +257,20 @@ public T get(int index)
     SimpleNode<T> start = first;
     if(first.getInfo() == o)
     {
-      first.setInfo(null);
+      first = first.getNextNode();
+      size--;
       return true;
     }
-
+    SimpleNode prev = start;
     int i = 0;
     for(; start.getInfo() == null; start = start.getNextNode())
     {
       if(start.getInfo() == o)
-        return true;
+      {
+        prev.setNextNode(prev.getNextNode().getNextNode());
+        size--;
+      }
+        prev = prev.getNextNode();
     }
     return false;
 

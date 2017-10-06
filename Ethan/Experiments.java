@@ -1,7 +1,10 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public class Experiments implements Comparator<String> 
+
+
+public class Experiments 
 {
 
   public static void main(String[] args) {
@@ -69,21 +72,21 @@ public class Experiments implements Comparator<String>
     
     start = end;
     AlternateInsert(iterations, "Hello");
-    SortedInsert(new ArrayList<String>(), new StringLengthComparator());
+    SortedInsert(new ArrayList<String>(), new ComparatorClass());
     end = System.nanoTime();
     System.out.println("Alternate insertion 10000 took " + (end - start)/1000000.0 + "ms.\n");
     
     
     start = end;
     AlternateInsert(iterations1, "Hello");
-    SortedInsert(new ArrayList<String>(), new StringLengthComparator());
+    SortedInsert(new ArrayList<String>(), new ComparatorClass());
     end = System.nanoTime();
     System.out.println("Alternate insertion 1000 took " + (end - start)/1000000.0 + "ms.\n"); 
     
     
     start = end;
     AlternateInsert(iterations2, "Hello");
-    SortedInsert(new ArrayList<String>(), new StringLengthComparator());
+    SortedInsert(new ArrayList<String>(), new ComparatorClass());
     end = System.nanoTime();
     System.out.println("Alternate insertion 100 took " + (end - start)/1000000.0 + "ms.\n");    
        
@@ -95,13 +98,21 @@ public class Experiments implements Comparator<String>
     // pseudocode AlternateInsert(iterations, "Hello");
     end = System.nanoTime();
     System.out.println("Alternate insertion took " + (end - start)/1000000.0 + "ms.\n");
-    
+    */
 
     start = end;
-    SortedInsert(iterations);
+    List<String> list = new ArrayList<String>();
+    list.add("penguin");
+    list.add("moose");
+    list.add("alpaca");
+    list.add("zebra");
+    list.add("fish");    
+   
+    Comparator comp = new ComparatorClass();
+    SortedInsert(list, comp);
     end = System.nanoTime();
     System.out.println("Sorted insertion took " + (end - start)/1000000.0 + "ms.\n");
-  	*/
+  	
   }
   
   /**
@@ -208,7 +219,7 @@ public class Experiments implements Comparator<String>
   		return l;
   }
   
-  //TODO Use a comparator in this method
+
   /**
    * Creates a List and inserts the given payload items, in the order they are given. Each item
    * is inserted in the proper location such that at all times the constructed List is
@@ -219,15 +230,29 @@ public class Experiments implements Comparator<String>
    * @param c The comparator used to sort the elements
    * @return A reference to the constructed List
    */
-  public static <T>  List<T> SortedInsert(List<T> items, Comparator <T> c) 
+  public static <T> List<T> SortedInsert(List<T> items, Comparator<T> c) 
   {
-  	List l = new ArrayList<T>();
-  	for (int i = 0; i < items.size(); i++)
-  	{
-  		compare()
-  	}
-  	
-  	return l;
-  } 
 
+    
+    List<T> l = new ArrayList<T>();
+    
+    for (int i = 0; i < items.size(); i ++)
+    {
+      
+      for (int j = 0; j < l.size(); j ++)
+      {
+          if (c.compare(l.get(i), l.get(j)) > 0)
+          {
+          	 l.add(j, l.get(j));
+          }
+      }
+       
+    //  l.add(items.get(i));
+      
+      
+    }
+	return l;
+  
+}
+	
 }

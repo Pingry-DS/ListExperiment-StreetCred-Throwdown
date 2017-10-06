@@ -1,48 +1,53 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.LinkedList;
+
+import java.lang.Thread;
+import java.lang.management.ThreadMXBean;
+import java.lang.management.ManagementFactory;
+
 public class Experiments {
 
   public static void main(String[] args) {
 
     //TODO Check command line for number of iterations
-    int iterations = 5000;
+    int iterations = 10000;
+    ThreadMXBean bean = ManagementFactory.getThreadMXBean();
 
     // Keep track of the run time for each call
-    long start = System.nanoTime();
-    long end = System.nanoTime();
-    iterations = 10000;
+    long start = bean.getThreadCpuTime(Thread.currentThread().getId());
+    long end;
     System.out.println("-------------------------------");
 
     // Make the testing calls and print the time after each
 
     HeadInsert(iterations, "Hello");
-    end = System.nanoTime();
+    end = bean.getThreadCpuTime(Thread.currentThread().getId());
     System.out.println(iterations + " iterations at head took " + (end - start)/1000000.0 + "ms.");
 
     System.out.println("-------------------------------");
 
 
-    start = end;
+    start = bean.getThreadCpuTime(Thread.currentThread().getId());
     TailInsert(iterations, "Hello");
-    end = System.nanoTime();
+    end = bean.getThreadCpuTime(Thread.currentThread().getId());
     System.out.println(iterations + " insertions at tail took " + (end - start)/1000000.0 + "ms.");
     System.out.println("-------------------------------");
 
-    start = end;
+    start = bean.getThreadCpuTime(Thread.currentThread().getId());
     MidpointInsert(iterations, "Hello");
-    end = System.nanoTime();
+    end = bean.getThreadCpuTime(Thread.currentThread().getId());
     System.out.println(iterations + " insertions at midpoint took " + (end - start)/1000000.0 + "ms.");
     System.out.println("-------------------------------");
 
 
-    start = end;
+    start = bean.getThreadCpuTime(Thread.currentThread().getId());
     AlternateInsert(iterations, "Hello");
-    end = System.nanoTime();
+    end = bean.getThreadCpuTime(Thread.currentThread().getId());
     System.out.println(iterations + " alternating insertions took " + (end - start)/1000000.0 + "ms.");
 
 
-    start = end;
+    start = bean.getThreadCpuTime(Thread.currentThread().getId());
 /*
     SortedInsert(iterations);
     end = System.nanoTime();

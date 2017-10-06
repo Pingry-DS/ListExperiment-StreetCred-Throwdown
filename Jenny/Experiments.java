@@ -1,6 +1,7 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 public class Experiments {
 
@@ -42,8 +43,11 @@ public class Experiments {
     end = System.nanoTime();
     System.out.println("Reverse alternate insertion took " + (end - start)/1000000.0 + "ms.\n");
     
-    start = end;
-    SortedInsert(iterations);
+	Comparator<String> c = new StringLengthComparator();
+	List<String> h = HeadInsert(iterations, "hi");
+    start = System.nanoTime();
+    SortedInsert(h, c);
+	//SortedInsert(h);
     end = System.nanoTime();
     System.out.println("Sorted insertion took " + (end - start)/1000000.0 + "ms.\n");
     
@@ -62,7 +66,8 @@ public class Experiments {
    */
   public static <T> List<T> HeadInsert(int times, T payload) 
   {
-	List<T> input = new ArrayList<T>();
+	//List<T> input = new ArrayList<T>();
+	List<T> input = new LinkedList<T>();
 	for(int i = 0; i < times; i++)
 	{
 		input.add(0, payload); 
@@ -80,7 +85,8 @@ public class Experiments {
    */
 
   public static <T> List<T> TailInsert(int times, T payload) {
-	List<T> li = new ArrayList<T>();
+	//List<T> li = new ArrayList<T>();
+	List<T> li = new LinkedList<T>();
 	for(int i=0; i<times; i++){
 		li.add(payload);
 	}
@@ -165,6 +171,7 @@ public class Experiments {
    * @param items The items to be inserted. Given in no particular order.
    * @return A reference to the constructed List
    */
+   
   public static <T> List<T> SortedInsert(List<T> items, Comparator<T> c) {
     List<T> l = new ArrayList<T>();
 	for(int i=0; i<items.size(); i++){
@@ -173,8 +180,45 @@ public class Experiments {
 			index++;
 		}
 		l.add(index, items.get(i));
+		if(index%1000==0){
+			System.out.println(index);
+		}
 	}
 	return l;
   }
+  
+  
+  /* Bert's code
+  public static List<String> SortedInsert(List<String> items) {
+    List<String> ret = new ArrayList<String>();
+    for(int x = 0; x < items.size(); x++){
+        ret.add(items.get(x));
+        int swaps = 0;
+        boolean finished = false;
+        if(ret.size() > 1) {
+            while (!finished) {
+                for (int y = 0; y < ret.size() - 2; y++) {
+                    if (ret.get(y).compareTo(ret.get(y + 1)) > 0) {
+                        String temp = ret.get(y + 1);
+                        ret.set(y + 1, ret.get(y));
+                        ret.set(y, temp);
+                        swaps++;
+                    }
+                }
+                finished = (swaps == 0);
+                //System.out.println("insert finished");
+            }
+        }
+    }
+    return ret;
+}
+*/
+}
 
+class StringLengthComparator implements Comparator<String>{
+	
+	//compare strings in reverse order
+	public int compare(String a, String b){
+		return b.compareTo(a);
+	}
 }

@@ -1,13 +1,14 @@
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 public class Experiments {
 
   public static void main(String[] args) {
 
 
-    int iterations = Integer.parseInt(args[0]);
+    int iterations = 10000;
 
     // Keep track of the run time for each call
     long start = System.nanoTime();
@@ -68,10 +69,10 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T> List<T> TailInsert(int times, T payload) {
-      List<T> list = new ArrayList<T>();
+  public static <T> LinkedList<T> TailInsert(int times, T payload) {
+      LinkedList<T> list = new LinkedList<T>();
       for(int i = 0; i < times; i++) {
-        list.add(list.size(), payload);
+        list.add(payload);
       }
       return list;
   }

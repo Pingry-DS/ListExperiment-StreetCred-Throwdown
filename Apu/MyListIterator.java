@@ -1,4 +1,4 @@
-package LinkedList;
+
 import java.util.Iterator;
 
 public class MyListIterator extends MyList implements Iterator<SimpleNode>

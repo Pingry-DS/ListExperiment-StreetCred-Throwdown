@@ -1,4 +1,5 @@
 import java.util.List;
+import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -8,7 +9,7 @@ public class Experiments {
 	
 	
     //TODO Check command line for number of iterations
-    int iterations = 500;
+    int iterations = 10000;
     
     // Keep track of the run time for each call
     long start = System.nanoTime();
@@ -59,7 +60,7 @@ public class Experiments {
    */
   public static <T> List<T> HeadInsert(int times, T payload) 
   {
-	List<T> input = new ArrayList<T>();
+	List<T> input = new LinkedList<T>();
 	for(int i = 0; i < times; i++)
 	{
 		input.add(0, payload); 

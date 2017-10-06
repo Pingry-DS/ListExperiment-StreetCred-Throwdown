@@ -1,52 +1,57 @@
 import java.util.List;
 import java.util.ArrayList;
-import java.util.LinkedList;
+import java.util.Comparator;
 
 public class Experiments {
 
   public static void main(String[] args) {
-
+	
+	
     //TODO Check command line for number of iterations
     int iterations = 10000;
-
+	if(args.length > 0){
+		iterations = Integer.parseInt(args[0]);
+	}
+    
     // Keep track of the run time for each call
     long start = System.nanoTime();
-    long end = System.nanoTime();
-
-    System.out.println("-------------------------------");
-    start = System.nanoTime();
+    long end;
+    
     // Make the testing calls and print the time after each
     HeadInsert(iterations, "Hello");
     end = System.nanoTime();
-    System.out.println(iterations + " iterations at head took " + (end - start)/1000000.0 + "ms.");
-    System.out.println("-------------------------------");
-
-    start = System.nanoTime();
+    System.out.println("Insertion at head took " + (end - start)/1000000.0 + "ms.\n");
+    
+    start = end;
     TailInsert(iterations, "Hello");
     end = System.nanoTime();
-    System.out.println(iterations + " insertions at tail took " + (end - start)/1000000.0 + "ms.");
-    System.out.println("-------------------------------");
-
-    start = System.nanoTime();
+    System.out.println("Insertion at tail took " + (end - start)/1000000.0 + "ms.\n");
+    
+    start = end;
     MidpointInsert(iterations, "Hello");
     end = System.nanoTime();
-    System.out.println(iterations + " insertions at midpoint took " + (end - start)/1000000.0 + "ms.");
-    System.out.println("-------------------------------");
-
-    start = System.nanoTime();
+    System.out.println("Insertion at midpoint took " + (end - start)/1000000.0 + "ms.\n");
+    
+    start = end;
     AlternateInsert(iterations, "Hello");
     end = System.nanoTime();
-    System.out.println(iterations + " alternating insertions took " + (end - start)/1000000.0 + "ms.");
-
-
+    System.out.println("Alternate insertion took " + (end - start)/1000000.0 + "ms.\n");
+	
+	start = end;
+    ReverseAlternateInsert(iterations, "Hello");
+    end = System.nanoTime();
+    System.out.println("Reverse alternate insertion took " + (end - start)/1000000.0 + "ms.\n");
+    
     start = end;
-    /**
     SortedInsert(iterations);
     end = System.nanoTime();
     System.out.println("Sorted insertion took " + (end - start)/1000000.0 + "ms.\n");
-    */
+    
+	
+	
+	
   }
-
+  
   /**
    * Creates a List and inserts the given payload the specified number of times at the head of the list
    * bumping all previous entries down the List.
@@ -55,14 +60,17 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> HeadInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
-    for (int i = 0; i < times; i++){
-      list.add(0, payload);
-    }
-    return list;
+  public static <T> List<T> HeadInsert(int times, T payload) 
+  {
+	List<T> input = new ArrayList<T>();
+	for(int i = 0; i < times; i++)
+	{
+		input.add(0, payload); 
+	} 
+	
+	return input;
   }
-
+  
   /**
    * Creates a List and inserts the given payload the specified number of times at the tail.
    *
@@ -70,15 +78,17 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> TailInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
-    for (int i = 0; i < times; i++){
-      list.add(payload);
-    }
-    return list;
+
+  public static <T> List<T> TailInsert(int times, T payload) {
+	List<T> li = new ArrayList<T>();
+	for(int i=0; i<times; i++){
+		li.add(payload);
+	}
+	return li;
+
   }
-
-
+  
+  
   /**
    * Creates a List and inserts the given payload the specified number of times in the middle of the list
    * bumping previous entries down the List as necessary. When calculating the midpoint, round down to the
@@ -89,15 +99,15 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> MidpointInsert(int times, T payload) {
+   
+  public static <T> List<T> MidpointInsert(int times, T payload) {
     List<T> l = new ArrayList<T>();
     for(int i = 0; i < times; i++) {
       l.add(l.size() / 2, payload);
     }
     return l;
   }
-
-  //TODO Maybe make a ReverseAlternateInsert too.
+  
   /**
    * Creates a List and inserts the given payload the specified number of times as if the List
    * items were arranged in a circle with new items inserted after every other existing item.
@@ -106,33 +116,46 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> AlternateInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
-    if (times == 0)
-      return list;
-    if (times == 1){
-      list.add(payload);
-      return list;
-    }
-    list.add(payload);
-    list.add(payload);
-
-    times -= 2;
-    int counter;
-    for (int i = 2; i < times*100; i += 2){
-      counter = 1;
-      for (int n = 0; n < i; n++){
-        list.add(counter, payload);
-        counter += 2;
-        times -= 1;
-        if (times == 0){
-          return list;
-        }
-      }
-    }
-    return list;
+  public static <T> List<T> AlternateInsert(int times, T payload) {
+	List<T> l = new ArrayList<T>();
+	boolean alt = true;
+	while(times>0){
+		for(int i=0; times>0 && i<=l.size(); i++){
+			if(alt){
+				l.add(i, payload);
+				times--;
+			}
+			if(i==l.size())
+				i = 0;
+			alt = !alt;
+		}
+	}
+	return l;
   }
-
+  
+  /**
+   * Creates a List and inserts the given payload the specified number of times as if the List
+   * items were arranged in a circle with the new items inserted before every other existing item.
+   *
+   * @param times How many times the payload should be inserted
+   * @param payload The object to be inserted
+   * @return a reference to the constructed List
+   */
+  public static <T> List<T> ReverseAlternateInsert(int times, T payload){
+	  List<T> l = new ArrayList<T>();
+	  if(times>0){
+		  l.add(payload);
+		  times--;
+	  }
+	  while(times>0){
+		  for(int i=l.size()-1; times>0 && i>=0; i--){
+			  l.add(i, payload);
+			  times--;
+		  }
+	  }
+	  return l;
+  }
+  
   //TODO Use a comparator in this method
   /**
    * Creates a List and inserts the given payload items, in the order they are given. Each item
@@ -142,10 +165,16 @@ public class Experiments {
    * @param items The items to be inserted. Given in no particular order.
    * @return A reference to the constructed List
    */
-   /*
-  public static List<String> SortedInsert(List<String> items) {
-    List<String> list = new ArrayList<String>();
-    return;
+  public static <T> List<T> SortedInsert(List<T> items, Comparator<T> c) {
+    List<T> l = new ArrayList<T>();
+	for(int i=0; i<items.size(); i++){
+		int index = 0;
+		while(index != l.size() && c.compare(items.get(i), items.get(index))>=0){
+			index++;
+		}
+		l.add(index, items.get(i));
+	}
+	return l;
   }
- */
+
 }

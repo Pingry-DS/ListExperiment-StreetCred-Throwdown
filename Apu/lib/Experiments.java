@@ -1,45 +1,59 @@
 import java.util.List;
-import java.util.ArrayList;
-import java.util.LinkedList;
+import linkedList.*;
+
 
 public class Experiments {
 
   public static void main(String[] args) {
 
     //TODO Check command line for number of iterations
-    int iterations = 10000;
+    int iterations = 5000;
 
     // Keep track of the run time for each call
     long start = System.nanoTime();
     long end = System.nanoTime();
 
     System.out.println("-------------------------------");
-    start = System.nanoTime();
+
     // Make the testing calls and print the time after each
-    HeadInsert(iterations, "Hello");
-    end = System.nanoTime();
-    System.out.println(iterations + " iterations at head took " + (end - start)/1000000.0 + "ms.");
+    while(iterations <= 20000){
+      HeadInsert(iterations, "Hello");
+      end = System.nanoTime();
+      System.out.println(iterations + " iterations at head took " + (end - start)/1000000.0 + "ms.");
+      iterations*=2;
+    }
     System.out.println("-------------------------------");
 
-    start = System.nanoTime();
-    TailInsert(iterations, "Hello");
-    end = System.nanoTime();
-    System.out.println(iterations + " insertions at tail took " + (end - start)/1000000.0 + "ms.");
+    iterations = 5000;
+    while(iterations <= 20000){
+      start = end;
+      TailInsert(iterations, "Hello");
+      end = System.nanoTime();
+      System.out.println(iterations + " insertions at tail took " + (end - start)/1000000.0 + "ms.");
+      iterations*=2;
+    }
     System.out.println("-------------------------------");
 
-    start = System.nanoTime();
-    MidpointInsert(iterations, "Hello");
-    end = System.nanoTime();
-    System.out.println(iterations + " insertions at midpoint took " + (end - start)/1000000.0 + "ms.");
+    iterations = 5000;
+    while(iterations <= 20000){
+      start = end;
+      MidpointInsert(iterations, "Hello");
+      end = System.nanoTime();
+      System.out.println(iterations + " insertions at midpoint took " + (end - start)/1000000.0 + "ms.");
+      iterations*=2;
+    }
     System.out.println("-------------------------------");
 
-    start = System.nanoTime();
-    AlternateInsert(iterations, "Hello");
-    end = System.nanoTime();
-    System.out.println(iterations + " alternating insertions took " + (end - start)/1000000.0 + "ms.");
+    iterations = 5000;
+    while(iterations <= 20000){
+      start = end;
+      AlternateInsert(iterations, "Hello");
+      end = System.nanoTime();
+      System.out.println(iterations + " alternating insertions took " + (end - start)/1000000.0 + "ms.");
+      iterations*=2;
+    }
 
-
-    start = end;
+  //  start = end;
     /**
     SortedInsert(iterations);
     end = System.nanoTime();
@@ -55,10 +69,15 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> HeadInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
-    for (int i = 0; i < times; i++){
-      list.add(0, payload);
+  public static <T> MyList<T> HeadInsert(int times, T payload) {
+    MyList<T> list = new MyList<T>();
+    for (int i = 0; i < times; i++)
+    {
+      if(i == 0)
+        list.add(payload);
+
+      else
+        list.add(0,payload);
     }
     return list;
   }
@@ -70,8 +89,8 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> TailInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
+  public static <T>MyList<T> TailInsert(int times, T payload) {
+    MyList<T> list = new MyList<T>();
     for (int i = 0; i < times; i++){
       list.add(payload);
     }
@@ -89,8 +108,8 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> MidpointInsert(int times, T payload) {
-    List<T> l = new ArrayList<T>();
+  public static <T>MyList<T> MidpointInsert(int times, T payload) {
+    MyList<T> l = new MyList<T>();
     for(int i = 0; i < times; i++) {
       l.add(l.size() / 2, payload);
     }
@@ -106,8 +125,8 @@ public class Experiments {
    * @param payload The actual string to be inserted
    * @return A reference to the constructed List
    */
-  public static <T>List<T> AlternateInsert(int times, T payload) {
-    List<T> list = new LinkedList<T>();
+  public static <T>MyList<T> AlternateInsert(int times, T payload) {
+    MyList<T> list = new MyList<T>();
     if (times == 0)
       return list;
     if (times == 1){
@@ -119,7 +138,7 @@ public class Experiments {
 
     times -= 2;
     int counter;
-    for (int i = 2; i < times*100; i += 2){
+    for (int i = 0; i < times*100; i += 2){
       counter = 1;
       for (int n = 0; n < i; n++){
         list.add(counter, payload);
@@ -142,10 +161,11 @@ public class Experiments {
    * @param items The items to be inserted. Given in no particular order.
    * @return A reference to the constructed List
    */
-   /*
-  public static List<String> SortedInsert(List<String> items) {
-    List<String> list = new ArrayList<String>();
-    return;
-  }
- */
+
+//  public static List<String> SortedInsert(List<String> items) {
+  //  List<String> list = new ArrayList<String>();
+  //  list.add(items);
+  //  return list;
+  //}
+
 }
